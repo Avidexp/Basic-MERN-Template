@@ -1,22 +1,14 @@
-const Authentication = require('../controllers/authentication');
-// const Itinerary = require('../controllers/itinerary');
-// const Cities = require('../controllers/cities_lng_lat');
-
-const passportService = require('../services/passport');
-const passport = require('passport');
-
-const requireAuth = passport.authenticate('jwt', { session: false });
-const requireSignin = passport.authenticate('local', { session: false });
+const Scheduler = require("../controllers/scheduler");
 
 module.exports = function (app) {
-  app.get('/', requireAuth, function (req, res) {
-    res.send({ message: 'Token is valid' })
+  app.get('/', function (req, res) {
+ 
   });
-  app.post('/api/v1/signin', requireSignin, Authentication.signin);
-  app.post('/api/v1/signup', Authentication.signup);
-  // app.post('/api/v1/cities_lng_lat', Cities.getLngLat);
-      // --V What we did to save itineraries on user profiles 
-  // app.post('/api/v1/save_itin', Itinerary.saveItinerary);
-    // --V What we did to get itineraries saved on user profiles 
-  // app.post('/api/v1/get_itin', Itinerary.readItinerary);
+  app.post('/api/v1/startComponent',function(req,res,next){
+    Scheduler.runComponent(req, res, next);
+  });
+  app.post('/api/v1/getComponents',function(req,res,next){
+    Scheduler.getComponents(req, res, next);
+  });
+
 };
